@@ -1,0 +1,48 @@
+# ---- Data (never commit the H&M dataset — it's licensed) ----
+data/
+*.csv
+*.parquet
+*.feather
+
+# ---- Model artifacts & embeddings (too large for git) ----
+*.model
+*.bin
+*.pkl
+*.pickle
+*.npy
+*.npz
+*.pt
+*.pth
+*.txt.gz
+embeddings/
+checkpoints/
+
+# ---- Generated outputs (commit only the few figures you reference) ----
+outputs/
+!outputs/figures/.gitkeep
+submissions/
+*.csv.gz
+
+# ---- Notebooks ----
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.python-version
+
+# ---- Kaggle / secrets ----
+kaggle.json
+.env
+*.key
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
