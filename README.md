@@ -10,6 +10,8 @@ Built on the [H&M Personalized Fashion Recommendations](https://www.kaggle.com/c
 
 Evaluated with **MAP@12** on a held-out final week (validation = 2020-09-16 → 09-22, trained on everything prior). The global-popularity floor is 0.00710; the final ranker reaches **0.04169 — a 5.9× lift**.
 
+All scores are measured on this self-held-out validation week, not the official Kaggle leaderboard (which scores a separate, unseen test period and is no longer open for submission), so they are not directly comparable to the competition standings.
+
 | Model | Description | MAP@12 |
 |---|---|---|
 | Global popularity *(floor)* | Top-12 trending items, same for everyone | 0.00710 |
