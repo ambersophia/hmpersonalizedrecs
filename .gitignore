@@ -1,6 +1,6 @@
 # ---- Data (never commit the H&M dataset — it's licensed) ----
+# Raw + intermediate data all lives under data/, so ignore the whole tree.
 data/
-*.csv
 *.parquet
 *.feather
 
@@ -16,10 +16,10 @@ data/
 *.txt.gz
 embeddings/
 checkpoints/
+outputs/*.txt                   # saved LightGBM boosters (lgbm_ranker_*.txt)
 
-# ---- Generated outputs (commit only the few figures you reference) ----
-outputs/
-!outputs/figures/.gitkeep
+# ---- Outputs: keep small result tables + figures, drop the heavy stuff ----
+# (*.parquet / *.pkl above already exclude the large intermediate artifacts)
 submissions/
 *.csv.gz
 
