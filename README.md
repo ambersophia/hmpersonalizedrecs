@@ -61,10 +61,11 @@ hm-fashion-recommender/
 ├── LICENSE
 ├── .gitignore                  # excludes data/, large artifacts, model files
 │
-├── data/                       # gitignored — see "Getting the data"
-│   ├── raw/                    # original Kaggle CSVs + images
-│   ├── parquet/                # CSVs converted to parquet
-│   └── split/                  # train / validation slices
+├── data/                       # only data/README.md is tracked; contents gitignored
+│   ├── README.md              # what to download and where it goes
+│   ├── raw/                    # original Kaggle CSVs + images (you provide)
+│   ├── parquet/                # CSVs converted to parquet (made by 00a)
+│   └── split/                  # train / validation slices (made by 00b)
 │
 ├── notebooks/
 │   ├── 00a_csv_to_parquet.ipynb           # CSV → parquet conversion
@@ -97,15 +98,20 @@ A few deliberate choices: the notebooks carry the *narrative* (numbered 00 → 0
 
 ## Getting the data
 
-The dataset is **not redistributed here** (H&M / Kaggle license it). To reproduce:
+The dataset is **not redistributed here** (H&M / Kaggle license it). The repo ships an empty `data/` folder with a `data/README.md`; the steps below populate it and regenerate every intermediate artifact.
 
-1. Accept the competition rules on [Kaggle](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations).
-2. Download `articles.csv`, `customers.csv`, `transactions_train.csv`, and (optional, ~16GB) the `images/` folder into `data/raw/`.
-3. Run the conversion step (CSV → parquet) — it cuts load times from minutes to seconds for the rest of the pipeline.
+1. Accept the competition rules and download from [Kaggle](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations) (CLI: `kaggle competitions download -c h-and-m-personalized-fashion-recommendations`).
+2. Unzip `articles.csv`, `customers.csv`, and `transactions_train.csv` into `data/raw/`. The `images/` folder (~16GB) is only needed to regenerate image embeddings (notebook `03b`).
+3. Run the notebooks in order from the repo root. Each reads/writes paths relative to that root (`data/raw`, `data/parquet`, `outputs/`), so the working directory must be the project root:
 
-```bash
-python -m src.data --convert-parquet
-```
+   - `00a` → CSV to parquet · `00b` → train/val split + MAP@12
+   - `01a–01c` → EDA, bias, complement analysis
+   - `02` → baselines · `03a–03d` → ALS/kNN, embeddings, complement classifier, item2vec
+   - `04` → ranking model · `05a–05b` → evaluation, improvements
+
+> **Running in Colab** (how these were developed): mount Drive and set the working directory to the repo root before running, e.g. `from google.colab import drive; drive.mount('/content/drive')` then `%cd /content/drive/MyDrive/<your-repo-folder>`. After that the relative paths resolve identically to a local clone.
+
+Heavy intermediate artifacts (embeddings, candidate sets, trained models) are gitignored — they're rebuilt by re-running the notebooks, so a fresh clone reproduces all results from the raw CSVs.
 
 ---
 
